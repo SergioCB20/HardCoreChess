@@ -2,19 +2,15 @@
 // Enumeración de estados de las casillas con respecto a las piezas
 export enum SquareState {
     Empty = 0,
-    Pawn = 1,
-    Rook = 2,
-    Horse = 3,
-    Bishop = 4,
-    Queen = 5,
-    King = 6
+    Posible = 1,
+    NoPosible = 2,
 }
-
 /*---------------- BOARD ----------------- */
 
 //Interfaz de chessBoard
 export interface IChessBoard{
-    createBoard(): Array<Array<IPiece|null>>
+    createBoard(): Array<Array<Piece|number>>
+    updateBoard(): void
 } 
 
 /*---------------------------------------- */
@@ -28,28 +24,40 @@ export enum PieceTypes{
     Black = 1
 }
 
-export interface IPiece {
+export interface Piece {
     id:number,
     name:string,
     symbol:string,
-    type:number
+    type:number,
+    column:number,
+    row:number,
+    move():void
 }
 
+//usar para piezas normales y evolucionadas
 
-export abstract class GamePiece {
+export abstract class BasePiece implements Piece{
     private static currentId = 1;
-    protected static pieces: GamePiece[] = [];
-    public id = 0;
+    protected static pieces: BasePiece[] = [];
+    id:number;
+    name:string;
+    symbol:string;
+    type:number;
+    column:number;
+    row:number;
     
-    constructor() {
-      this.id = GamePiece.currentId++;
-      GamePiece.pieces.push(this);
+    constructor(col:number,row:number,name:string,symbol:string,type:number) {
+      this.id = BasePiece.currentId++;
+      BasePiece.pieces.push(this);
+      this.column = col;
+      this.row = row;
+      this.name = name
+      this.symbol = symbol
+      this.type = type;
     }
     
-    abstract createBlackPiece(): IPiece;
-    abstract createWhitePiece(): IPiece;
-  
-    static findById(id: number): GamePiece | undefined {
+    abstract move():void
+    static findById(id: number): BasePiece | undefined {
       return this.pieces.find((piece) => piece.id === id);
     }
   }
