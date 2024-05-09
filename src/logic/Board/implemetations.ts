@@ -26,8 +26,8 @@ export class BoardC implements IChessBoard {
         let factoryWhite = new WhitePiecesFactory();
         let factoryBlack = new BlackPiecesFactory();
         for (let i = 0; i < 8; i++) {
-            let newWhitePawn = factoryWhite.createPawn(1,i);
-            let newBlackPawn = factoryBlack.createPawn(6,i);
+            let newWhitePawn = factoryWhite.createPawn(6,i);
+            let newBlackPawn = factoryBlack.createPawn(1,i);
             this.board[1][i] = newBlackPawn;
             this.board[6][i] = newWhitePawn;
         }
@@ -60,6 +60,6 @@ export class BoardC implements IChessBoard {
         this.board[0][4] = newBlackKing;
     }
     public updateBoard():void{
-        
+
     }
 }
